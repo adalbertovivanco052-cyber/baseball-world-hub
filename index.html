@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BASEBALL WORLD HUB</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary: #0F172A;
+    --accent-gold: #D4AF37; 
+    --accent-blue: #38bdf8;
+    --text-main: #F8FAFC;
+    --gradient: linear-gradient(135deg, #D4AF37 0%, #FBBF24 100%);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+
+body{
+    font-family:Inter,sans-serif;
+    background: var(--primary);
+    color: var(--text-main);
+    overflow-x:hidden;
+}
+
+/* FONDO DINÁMICO */
+.bg{ position:fixed; inset:0; z-index:-10; overflow:hidden; }
+.blur{ position:absolute; border-radius:50%; filter:blur(120px); opacity:0.25; animation:float 10s infinite ease-in-out; }
+.blur1{ width:450px; height:450px; background:#22C55E; top:-100px; left:-120px; }
+.blur2{ width:500px; height:500px; background:#FBBF24; right:-150px; top:100px; }
+.blur3{ width:450px; height:450px; background:#F97316; bottom:-100px; left:35%; }
+
+@keyframes float{ 0%,100%{transform:translateY(0px);} 50%{transform:translateY(-30px);} }
+
+/* NAVBAR */
+.navbar{
+    position:sticky; top:0; display:flex; justify-content:space-between; align-items:center;
+    padding:24px 60px; background:rgba(15,23,42,0.8); backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,0.08); z-index:999;
+}
+
+.logo{
+    font-size:28px; font-weight:900; background: var(--gradient);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+.nav-links{ display:flex; gap:32px; }
+.nav-links a{ text-decoration:none; color:white; font-weight:600; transition:0.25s; }
+.nav-links a:hover{ color: var(--accent-gold); }
+
+/* HERO CON ESTADIO */
+.hero{
+    min-height:100vh; display:flex; justify-content:center; align-items:center;
+    text-align:center; padding:120px 20px; position:relative;
+    background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.9)), 
+                url('https://images.unsplash.com/photo-1508341591423-4347099e1f19?auto=format&fit=crop&q=80&w=2000') no-repeat center center;
+    background-size: cover; background-attachment: fixed;
+}
+
+.hero h1{ font-size:clamp(40px, 8vw, 88px); font-weight:900; line-height:1; margin-bottom:24px; text-transform:uppercase; }
+
+/* BOTONES Y RIPPLE */
+.btn{ padding:16px 28px; border:none; border-radius:999px; font-weight:700; cursor:pointer; transition:0.25s; position:relative; overflow:hidden; }
+.btn-primary{ background: var(--gradient); color:#111; }
+.btn-secondary{ background:rgba(255,255,255,0.08); color:white; border:1px solid rgba(255,255,255,0.08); backdrop-filter:blur(12px); }
+.btn:hover{ transform:translateY(-4px); box-shadow:0 10px 30px rgba(212,175,55,0.3); }
+
+/* SECCIONES Y GRID */
+.section{ width:90%; max-width:1450px; margin:auto; padding:90px 0; }
+.section-title{ font-size:48px; font-weight:900; margin-bottom:18px; }
+.grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:26px; }
+
+/* TARJETAS CON EFECTO 3D */
+.card{
+    position:relative; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+    border-radius:28px; padding:30px; overflow:hidden; backdrop-filter:blur(18px);
+    transition:0.3s ease-out; transform-style:preserve-3d;
+}
+
+/* CÍRCULOS DE EQUIPAMIENTO */
+.cat-circle {
+    width: 130px; height: 130px; border-radius: 50%; margin: 0 auto 20px;
+    border: 3px solid var(--accent-gold); overflow: hidden; display: flex;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+}
+.cat-circle img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+.card:hover .cat-circle img { transform: scale(1.2); }
+
+/* MAPA, JUGADORES Y CHART */
+.map{ background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(212,175,55,0.1)); border-radius:28px; padding:40px; }
+.country{ padding:12px 20px; border-radius:999px; background:rgba(255,255,255,0.08); display:inline-block; margin:5px; cursor:pointer; }
+.country:hover{ background: var(--accent-gold); color:black; }
+
+.player{ display:flex; align-items:center; gap:16px; }
+.player img{ width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--accent-gold); }
+
+.chart{ display:flex; align-items:flex-end; gap:12px; height:200px; margin-top:25px; }
+.bar{ flex:1; border-radius:14px 14px 0 0; background: var(--gradient); transition:0.5s; }
+
+/* APP SECTION */
+.phone{ width:300px; height:580px; margin:auto; border-radius:40px; background:#111827; border:8px solid #1e293b; padding:20px; box-shadow:0 0 40px rgba(212,175,55,0.1); }
+.phone-card{ background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:12px; font-size:13px; }
+
+@media(max-width:900px){ .navbar{padding:20px; flex-direction:column;} .nav-links{display:none;} }
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+    <div class="blur blur1"></div>
+    <div class="blur blur2"></div>
+    <div class="blur blur3"></div>
+</div>
+
+<nav class="navbar">
+    <div class="logo">BASEBALL WORLD HUB</div>
+    <div class="nav-links">
+        <a href="#">Inicio</a>
+        <a href="#equipamiento">Equipamiento</a>
+        <a href="#jugadores">Jugadores</a>
+        <a href="#global">Global</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>EL <span style="color:var(--accent-gold)">BÉISBOL</span> MUNDIAL EN TUS MANOS</h1>
+        <p>Explora academias, scouts y equipamiento profesional en la red más grande del béisbol internacional.</p>
+        <div class="hero-buttons">
+            <button class="btn btn-primary">Explorar Academias</button>
+            <button class="btn btn-secondary">Ver Eventos</button>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="equipamiento">
+    <h2 class="section-title" style="text-align:center">Equipamiento Pro</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="cat-circle"><img src="https://images.unsplash.com/photo-1593011333333-e7f12e862029?auto=format&fit=crop&w=400"></div>
+            <h3 style="text-align:center">Pelotas Oficiales</h3>
+            <p style="text-align:center">Estándar MLB para entrenamiento de élite.</p>
+        </div>
+        <div class="card">
+            <div class="cat-circle"><img src="https://images.unsplash.com/photo-1606335192147-85205938485a?auto=format&fit=crop&w=400"></div>
+            <h3 style="text-align:center">Guantes Elite</h3>
+            <p style="text-align:center">Cuero premium para máxima durabilidad.</p>
+        </div>
+        <div class="card">
+            <div class="cat-circle"><img src="https://images.unsplash.com/photo-1544040169-424a73756858?auto=format&fit=crop&w=400"></div>
+            <h3 style="text-align:center">Bates Pro</h3>
+            <p style="text-align:center">Madera seleccionada para alto impacto.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="jugadores">
+    <h2 class="section-title">Jugadores Destacados</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="player">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400">
+                <div><h3>Andrés Molina</h3><p>Pitcher • Colombia</p></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="player">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400">
+                <div><h3>Carlos Reyes</h3><p>Catcher • México</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="global">
+    <h2 class="section-title">Actividad Mundial</h2>
+    <div class="map">
+        <div class="countries">
+            <span class="country">Dominicana</span><span class="country">Venezuela</span><span class="country">Japón</span><span class="country">USA</span>
+        </div>
+        <div class="chart">
+            <div class="bar" style="height:60%"></div>
+            <div class="bar" style="height:85%"></div>
+            <div class="bar" style="height:40%"></div>
+            <div class="bar" style="height:95%"></div>
+        </div>
+    </div>
+</section>
+
+<footer style="text-align:center; padding:60px; color:rgba(255,255,255,0.3); border-top:1px solid rgba(255,255,255,0.05);">
+    © 2026 BASEBALL WORLD HUB — Elite Sports Network
+</footer>
+
+<script>
+// EFECTO 3D EN TARJETAS
+const cards = document.querySelectorAll('.card');
+cards.forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotateX = ((y - rect.height/2)/15);
+        const rotateY = ((rect.width/2 - x)/15);
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+    });
+    card.addEventListener('mouseleave',()=>{
+        card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) translateY(0)`;
+    });
+});
+
+// EFECTO RIPPLE EN BOTONES
+document.querySelectorAll('.btn').forEach(button=>{
+    button.addEventListener('click', function(e){
+        const ripple = document.createElement('span');
+        ripple.style.cssText = `position:absolute; width:20px; height:20px; background:rgba(255,255,255,0.4); border-radius:50%; pointer-events:none; left:${e.offsetX}px; top:${e.offsetY}px;`;
+        this.appendChild(ripple);
+        ripple.animate([{transform:'scale(0)',opacity:1},{transform:'scale(20)',opacity:0}], {duration:600});
+        setTimeout(()=>ripple.remove(), 600);
+    });
+});
+
+// APARECIMIENTO SUAVE (OBSERVER)
+const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.animate([{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'translateY(0)'}],{duration:800,fill:'forwards'});
+        }
+    });
+});
+document.querySelectorAll('.card, .section-title').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
